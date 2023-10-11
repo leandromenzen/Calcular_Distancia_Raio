@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Cronômetro para Calcular Distância de um Raio</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        button {
+            background-color: #3498db;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            font-size: 18px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        button:hover {
+            background-color: #2980b9;
+        }
+
+        p {
+            font-size: 18px;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+    <h1>Cronômetro para Calcular Distância de um Raio</h1>
+    <button id="startButton">Iniciar Cronômetro</button>
+    <p>Tempo decorrido: <span id="timer">0</span> segundos</p>
+    <p>Distância percorrida pelo raio: <span id="distance">0</span> metros</p>
+
+    <script>
+        let isRunning = false;
+        let startTime;
+        let endTime;
+        let distanceTraveled = 0;
+
+        const startButton = document.getElementById("startButton");
+        const timerElement = document.getElementById("timer");
+        const distanceElement = document.getElementById("distance");
+
+        startButton.addEventListener("click", function() {
+            if (!isRunning) {
+                isRunning = true;
+                startButton.textContent = "Parar Cronômetro";
+                distanceTraveled = 0; // Limpa a distância acumulada
+                startTime = new Date().getTime();
+                updateTimer();
+            } else {
+                isRunning = false;
+                startButton.textContent = "Iniciar Cronômetro";
+                endTime = new Date().getTime();
+                calculateDistance();
+            }
+        });
+
+        function updateTimer() {
+            const currentTime = new Date().getTime();
+            const elapsedTime = (currentTime - startTime) / 1000;
+            timerElement.textContent = elapsedTime.toFixed(2);
+            if (isRunning) {
+                requestAnimationFrame(updateTimer);
+            }
+        }
+
+        function calculateDistance() {
+            const timeInSeconds = (endTime - startTime) / 1000;
+            // A cada 1 segundo, o raio percorre 300 metros
+            const distance = timeInSeconds * 300;
+            distanceTraveled += distance;
+            distanceElement.textContent = distanceTraveled.toFixed(2) + " metros";
+        }
+    </script>
+</body>
+</html>
